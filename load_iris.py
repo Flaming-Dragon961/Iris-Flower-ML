@@ -7,6 +7,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 import pandas as pd
+import matplotlib.pylab as plt
+import numpy as np
 
 X,y=load_iris(return_X_y=True)
 
@@ -27,10 +29,17 @@ mod.fit(X_train,y_train)
 prediction=mod.predict(X_test)
 
 acc=accuracy_score(prediction,y_test)
-print(f"Accuracy Score:{acc}")
+print(f"Accuracy Score:{acc*100}%")
 
 conf=confusion_matrix(prediction,y_test)
-print(f"Confusion Matrix:{conf}")
+print(f"Confusion Matrix:\n{conf}")
 
+plt.scatter(prediction + np.random.normal(0,0.03,size=len(prediction)), y_test + np.random.normal(0,0.03,size=len(y_test)))
+plt.xlabel("Prediction")
+plt.ylabel("Actual")
+plt.title("Model Predictions vs. Model Accuracy")
+plt.show()
+
+print("Best # of Neighbours for KNeighborsClassifier")
 pd.DataFrame(mod.cv_results_) #this shows me a table using pandas which compares the cv results across neighbours 1-10
 
